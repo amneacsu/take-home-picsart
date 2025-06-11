@@ -1,6 +1,7 @@
 import { rspack } from '@rspack/core';
 import path, { dirname } from 'path';
 import { fileURLToPath } from 'url';
+import Dotenv from 'dotenv-webpack';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -17,6 +18,9 @@ export default {
     clean: true,
   },
   plugins: [
+    new Dotenv({
+      safe: true,
+    }),
     new rspack.HtmlRspackPlugin({
       favicon: path.join('src', 'assets', 'icon.png'),
       template: path.join('src', 'index.html'),
