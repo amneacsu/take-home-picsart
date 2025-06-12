@@ -9,12 +9,13 @@ import { useSearchQuery } from '../hooks/useSearchQuery.ts';
 import { Navigation } from '../elements/Navigation.ts';
 import { PageTitle } from '../elements/PageTitle.ts';
 import { SearchBox } from '../elements/SearchBox.tsx';
+import { Spinner } from '../elements/Spinner.tsx';
 
 export const Homepage = () => {
   const [query, setQuery] = useSearchQuery();
   const cols = useGridColumnCount();
   const viewport = useViewWindow();
-  const data = useImageList(query);
+  const { data, isFetching } = useImageList(query);
   const masonry = useMasonryLayout(data, cols);
 
   const totalHeight = useMemo(() => {
@@ -54,6 +55,8 @@ export const Homepage = () => {
           );
         })}
       </S.GridWrapper>
+
+      {isFetching && <Spinner />}
     </div>
   );
 };
