@@ -2,7 +2,9 @@ import { useState } from 'react';
 import { GalleryItem } from '../types.ts';
 import { createMockImage } from '../utils/createMockImage.ts';
 
-export const useImageList = () => {
+export const useImageList = (query: string | null) => {
+  console.debug(query);
+
   const [data] = useState(() => {
     const images: GalleryItem[] = [];
 

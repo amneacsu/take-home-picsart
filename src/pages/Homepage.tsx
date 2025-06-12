@@ -5,11 +5,16 @@ import { useMasonryLayout } from '../hooks/useMasonryLayout.ts';
 import * as S from './Homepage.styles.ts';
 import { useViewWindow } from '../hooks/useViewWindow.ts';
 import { useImageList } from '../hooks/useImageList.ts';
+import { useSearchQuery } from '../hooks/useSearchQuery.ts';
+import { Navigation } from '../elements/Navigation.ts';
+import { PageTitle } from '../elements/PageTitle.ts';
+import { SearchBox } from '../elements/SearchBox.tsx';
 
 export const Homepage = () => {
+  const [query, setQuery] = useSearchQuery();
   const cols = useGridColumnCount();
   const viewport = useViewWindow();
-  const data = useImageList();
+  const data = useImageList(query);
   const masonry = useMasonryLayout(data, cols);
 
   const totalHeight = useMemo(() => {
@@ -24,6 +29,18 @@ export const Homepage = () => {
 
   return (
     <div>
+      <Navigation>
+        <SearchBox
+          query={query}
+          onChangeQuery={setQuery}
+        />
+      </Navigation>
+
+      <PageTitle>
+        {query && `Topic: ${query}`}
+        {!query && `Browsing all images`}
+      </PageTitle>
+
       <S.GridWrapper
         style={{ width: cols * 300, height: totalHeight }}
       >
