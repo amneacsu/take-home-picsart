@@ -1,19 +1,24 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { GalleryItem } from '../types.ts';
 import { createMockImage } from '../utils/createMockImage.ts';
 
 export const useImageList = (query: string | null) => {
+  const [isFetching, setIsFetching] = useState(true);
+  const [data, setData] = useState<GalleryItem[]>([]);
   console.debug(query);
 
-  const [data] = useState(() => {
-    const images: GalleryItem[] = [];
+  useEffect(() => {
+    setTimeout(() => {
+      const images: GalleryItem[] = [];
 
-    while (images.length < 50000) {
-      images.push(createMockImage(images.length));
-    }
+      while (images.length < 50000) {
+        images.push(createMockImage(images.length));
+      }
 
-    return images;
-  });
+      setIsFetching(false);
+      setData((prev) => [...prev, ...images]);
+    }, 200);
+  }, []);
 
-  return data;
+  return { data, isFetching };
 };
