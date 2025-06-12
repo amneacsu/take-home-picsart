@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React, { useCallback, useMemo } from 'react';
 import { GridItem } from '../elements/GridItem.tsx';
 import { useGridColumnCount } from '../hooks/useGridColumnCount.ts';
 import { useMasonryLayout } from '../hooks/useMasonryLayout.ts';
@@ -7,15 +7,17 @@ import { useViewWindow } from '../hooks/useViewWindow.ts';
 import { useImageList } from '../hooks/useImageList.ts';
 import { useSearchQuery } from '../hooks/useSearchQuery.ts';
 import { Navigation } from '../elements/Navigation.ts';
+import { PageFooter } from '../elements/PageFooter.ts';
 import { PageTitle } from '../elements/PageTitle.ts';
 import { SearchBox } from '../elements/SearchBox.tsx';
 import { Spinner } from '../elements/Spinner.tsx';
+import { InfiniteLoadingTrigger } from '../elements/InfiniteLoadingTrigger.tsx';
 
 export const Homepage = () => {
   const [query, setQuery] = useSearchQuery();
   const cols = useGridColumnCount();
   const viewport = useViewWindow();
-  const { data, isFetching } = useImageList(query);
+  const { data, isFetching, fetchNextPage } = useImageList(query);
   const masonry = useMasonryLayout(data, cols);
 
   const totalHeight = useMemo(() => {
@@ -27,6 +29,10 @@ export const Homepage = () => {
       return (item.rect.y + item.rect.height) > viewport.top && item.rect.y < viewport.bottom;
     });
   }, [masonry, viewport]);
+
+  const handleLoadMore = useCallback(() => {
+    fetchNextPage();
+  }, [fetchNextPage]);
 
   return (
     <div>
@@ -56,7 +62,15 @@ export const Homepage = () => {
         })}
       </S.GridWrapper>
 
+      {!isFetching && (
+        <InfiniteLoadingTrigger
+          onTrigger={handleLoadMore}
+        />
+      )}
+
       {isFetching && <Spinner />}
+
+      <PageFooter />
     </div>
   );
 };
