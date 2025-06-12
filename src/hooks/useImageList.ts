@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { GalleryItem } from '../types.ts';
 import { createMockImage } from '../utils/createMockImage.ts';
 
@@ -7,11 +7,13 @@ export const useImageList = (query: string | null) => {
   const [data, setData] = useState<GalleryItem[]>([]);
   console.debug(query);
 
-  useEffect(() => {
+  const fetchNextPage = useCallback(() => {
+    setIsFetching(true);
+
     setTimeout(() => {
       const images: GalleryItem[] = [];
 
-      while (images.length < 50000) {
+      while (images.length < 50) {
         images.push(createMockImage(images.length));
       }
 
@@ -20,5 +22,9 @@ export const useImageList = (query: string | null) => {
     }, 200);
   }, []);
 
-  return { data, isFetching };
+  useEffect(() => {
+    fetchNextPage();
+  }, [fetchNextPage]);
+
+  return { data, isFetching, fetchNextPage };
 };
