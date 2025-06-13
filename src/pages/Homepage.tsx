@@ -12,13 +12,15 @@ import { PageTitle } from '../elements/PageTitle.ts';
 import { SearchBox } from '../elements/SearchBox.tsx';
 import { Spinner } from '../elements/Spinner.tsx';
 import { InfiniteLoadingTrigger } from '../elements/InfiniteLoadingTrigger.tsx';
+import { gallerySchema } from '../types.ts';
 
 export const Homepage = () => {
   const [query, setQuery] = useSearchQuery();
   const cols = useGridColumnCount();
   const viewport = useViewWindow();
   const { data, isFetching, fetchNextPage } = useImageList(query);
-  const masonry = useMasonryLayout(data, cols);
+  const photos = (data?.pages ?? []).flatMap((page) => gallerySchema.parse(page).photos);
+  const masonry = useMasonryLayout(photos, cols);
 
   const totalHeight = useMemo(() => {
     return Math.max(0, ...masonry.map((item) => item.rect.height + item.rect.y));

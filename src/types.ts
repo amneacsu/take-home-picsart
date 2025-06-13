@@ -1,7 +1,6 @@
 import z from 'zod';
 
-/* eslint-disable-next-line @typescript-eslint/no-unused-vars */
-const galleryItemSchema = z.object({
+export const galleryItemSchema = z.object({
   id: z.number(),
   width: z.number(),
   height: z.number(),
@@ -14,4 +13,10 @@ const galleryItemSchema = z.object({
   avg_color: z.string(),
 });
 
+export const gallerySchema = z.object({
+  photos: z.array(galleryItemSchema),
+  next_page: z.string().optional(),
+});
+
 export type GalleryItem = z.infer<typeof galleryItemSchema>;
+export type GalleryList = z.infer<typeof gallerySchema>;
