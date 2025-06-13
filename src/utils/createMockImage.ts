@@ -18,6 +18,7 @@ export const createMockImage = (imageId: number): GalleryItem => {
     height,
     alt: faker.lorem.sentence(),
     avg_color: faker.color.rgb(),
+    photographer: faker.person.fullName(),
     src: {
       original: src,
       large: src,

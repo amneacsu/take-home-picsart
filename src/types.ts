@@ -6,6 +6,7 @@ const galleryItemSchema = z.object({
   width: z.number(),
   height: z.number(),
   alt: z.string(),
+  photographer: z.string(),
   src: z.object({
     original: z.string().url(),
     large: z.string().url(),
