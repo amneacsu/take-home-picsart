@@ -7,9 +7,20 @@ export const createMockImage = (imageId: number): GalleryItem => {
   const width = faker.helpers.arrayElement(mockSizes);
   const height = faker.helpers.arrayElement(mockSizes);
 
+  const src = faker.image.urlPicsumPhotos({
+    width,
+    height,
+  });
+
   return {
     id: imageId,
     width,
     height,
+    alt: faker.lorem.sentence(),
+    avg_color: faker.color.rgb(),
+    src: {
+      original: src,
+      large: src,
+    },
   };
 };
