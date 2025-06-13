@@ -5,6 +5,5 @@ export const GridItem = styled.article`
 
   img {
     display: block;
-    box-shadow: 0 0 60px red inset;
   }
 `;

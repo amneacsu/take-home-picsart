@@ -13,8 +13,6 @@ interface GridItemProps {
   };
 }
 
-const spacer = 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAAAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==';
-
 export const GridItem = ({
   image,
   rect,
@@ -24,12 +22,12 @@ export const GridItem = ({
   return (
     <S.GridItem
       data-testid={`image_${image.id}`}
-      style={{ left: x, top: y }}
+      style={{ left: x, top: y, backgroundColor: image.avg_color }}
     >
       <Link to={`/details/${image.id}`}>
         <img
-          alt={`Image ${image.id}`}
-          src={spacer}
+          alt={image.alt}
+          src={image.src.large}
           width={width}
           height={height}
         />
