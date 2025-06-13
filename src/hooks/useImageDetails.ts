@@ -1,18 +1,14 @@
-import { useEffect, useState } from 'react';
+import { useQuery } from '@tanstack/react-query';
+import { usePexelsApi } from './usePexelsApi.ts';
 import { GalleryItem } from '../types.ts';
-import { createMockImage } from '../utils/createMockImage.ts';
 
 export const useImageDetails = (imageId: number) => {
-  const [isPending, setIsPending] = useState(true);
+  const fetchFn = usePexelsApi();
 
-  const [data, setData] = useState<GalleryItem>();
-
-  useEffect(() => {
-    setTimeout(() => {
-      setData(createMockImage(imageId));
-      setIsPending(false);
-    }, 200);
-  }, [imageId]);
-
-  return { data, isPending };
+  return useQuery<GalleryItem>({
+    queryKey: ['details', imageId],
+    queryFn: async () => {
+      return fetchFn(`https://api.pexels.com/v1/photos/${imageId}`);
+    },
+  });
 };
