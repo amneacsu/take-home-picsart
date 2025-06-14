@@ -3,7 +3,7 @@ import { GalleryItem } from '../types.ts';
 
 const mockSizes = [960, 480, 150, 640, 800, 1280, 320, 100, 400, 420, 515];
 
-export const createMockImage = (imageId: number): GalleryItem => {
+export const createMockImage = (): GalleryItem => {
   const width = faker.helpers.arrayElement(mockSizes);
   const height = faker.helpers.arrayElement(mockSizes);
 
@@ -13,7 +13,7 @@ export const createMockImage = (imageId: number): GalleryItem => {
   });
 
   return {
-    id: imageId,
+    id: faker.number.int(),
     width,
     height,
     alt: faker.lorem.sentence(),

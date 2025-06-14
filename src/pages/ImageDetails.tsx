@@ -21,7 +21,9 @@ export const ImageDetails = () => {
   return (
     <div>
       <Navigation>
-        <button type="button" onClick={() => navigate(-1)}>Back</button>
+        <button type="button" onClick={() => {
+          navigate(-1);
+        }}>Back</button>
       </Navigation>
 
       {isPending && <Spinner />}
